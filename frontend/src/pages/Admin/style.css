@@ -1,0 +1,19 @@
+.my-ul li {
+  /* border: 2px solid white; */
+  color: #a1aab8;
+  cursor: pointer;
+  padding: 0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.my-ul li:hover {
+  background-color: #333a48;
+  color: #ffffff;
+  transition: var(--transistion);
+}
+.my-class {
+  background-color: #333a48;
+  color: #ffffff;
+  transition: var(--transistion);
+}

@@ -1,0 +1,246 @@
+/* =======================for nav bar=======================  */
+.active {
+  color: var(--color-secondary) !important;
+  /* font-size: 1.4rem !important; */
+}
+.window-scrolled {
+  background: linear-gradient(to right, #0f2027, #132227, #162931);
+  border-bottom: 0.2rem solid #000;
+  /* box-shadow: 0px 20px 20px 1px rgb(0, 0, 0); */
+  box-shadow: 0 1rem 0.8rem rgb(0 0 0 / 80%);
+  height: 4rem !important;
+  transition: var(--transistion);
+}
+.window-scrolled .links ul .nav_links::after {
+  transition: all 0.4s;
+  content: " ";
+  position: absolute;
+  width: 3rem;
+  top: 3rem;
+  height: 3px;
+  background-color: var(--color-primary);
+  display: flex;
+  justify-content: center;
+}
+
+#navBar li {
+  list-style: none;
+  display: flex !important;
+  place-items: center;
+}
+
+#navBar {
+  /* border: 2px solid black; */
+  /* background-color: var(--color-primary); */
+  height: 4.4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* position: fixed; */
+  width: 100%;
+  top: 0;
+  z-index: 100;
+}
+#navBar a {
+  text-decoration: none;
+}
+#navBar .logo {
+  width: 14rem;
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+#navBar .logo .nav_logo img {
+  width: 100%;
+}
+#navBar .nav_logo {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+#navBar .logo {
+  margin-left: 2rem;
+}
+#navBar .userInfo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  cursor: pointer;
+}
+#navBar .userName {
+  height: 3.4rem;
+  width: 3.4rem;
+  border-radius: 50%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* background-color: var(--color-secondary); */
+  cursor: pointer;
+  /* background-color: #000; */
+}
+#navBar h1 {
+  margin-top: 0.3rem;
+  font-size: 1.8rem;
+  color: var(--color-secondary);
+  font-weight: bolder;
+}
+#navBar .down {
+  /* margin-right: -10rem; */
+  color: #000;
+  font-size: 1.4rem;
+  /* border: 2px solid red; */
+}
+#navBar .userInfo:hover .userName {
+  transition: var(--transistion);
+  background-color: var(--color-secondary);
+}
+#navBar .userInfo:hover h1 {
+  transition: var(--transistion);
+  color: #000;
+}
+#navBar .userInfo:hover .down {
+  transition: var(--transistion);
+  color: var(--color-secondary);
+}
+#navBar .dash {
+  font-weight: bolder;
+  font-size: 1.4rem;
+  /* border: 2px solid red; */
+}
+
+.links {
+  /* border: 2px solid black; */
+  margin-right: 0.4rem;
+  height: 100%;
+  width: 60%;
+  justify-content: center;
+  align-items: center;
+}
+.links ul {
+  /* border: 2px solid black; */
+  display: flex;
+  /* justify-content: space-evenly; */
+  justify-content: flex-end;
+  gap: 2.2rem;
+  align-items: center;
+  height: 100%;
+  margin-right: 1.4rem;
+}
+.links li a {
+  font-size: 1.2rem;
+  font-weight: bolder;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.2rem;
+  text-transform: uppercase;
+  color: #000;
+}
+.links li {
+  height: 100%;
+  /* width: 14rem; */
+}
+nav li:hover .nav_links {
+  transition: var(--transistion);
+  color: var(--color-secondary) !important;
+}
+#navBar li:hover {
+  transition: var(--transistion);
+  margin-bottom: 1rem;
+}
+.links ul li:hover::after {
+  width: 4.5rem;
+  /* margin-bottom: 1rem; */
+  background-color: var(--color-secondary);
+}
+.links ul li::after {
+  transition: all 0.4s;
+  content: " ";
+  position: absolute;
+  width: 3rem;
+  top: 3.2rem;
+  height: 2.6px;
+  background-color: #000;
+  display: flex;
+  justify-content: center;
+}
+.login {
+  background-color: var(--color-secondary);
+  font-size: 1.2rem !important;
+  color: #000;
+  font-weight: bolder !important;
+  width: 5rem;
+  /* border: 2px solid var(--color-bg-1); */
+}
+.login:hover {
+  transition: var(--transistion);
+  background-color: transparent !important;
+  border: 3px solid var(--color-secondary);
+  color: var(--color-secondary);
+  /* color: var(--color-primary) !important; */
+}
+.logoutDiv hr {
+  border: 2px solid black;
+  width: 100%;
+}
+.logoutDiv div h5 {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.1rem;
+}
+.logoutDiv .name h5 {
+  color: var(--color-secondary);
+  font-size: auto;
+}
+.logoutDiv .setting h5 {
+  color: #000;
+}
+.logoutDiv .logout {
+  border-bottom: none;
+}
+.logoutDiv .logout h5 {
+  color: red;
+}
+.logoutDiv div h5:hover {
+  transition: var(--transistion);
+  font-size: 1.2rem;
+}
+.logoutDiv div {
+  border-bottom: 1px solid #000;
+  width: 100%;
+  height: calc(100% / 3);
+  display: grid;
+  place-items: center;
+}
+.logoutDiv {
+  background-color: #fff;
+  transition: var(--transistion);
+  border: 2.6px solid black;
+  height: 10rem;
+  width: 12rem;
+  border-radius: 2rem;
+  /* display: none; */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  right: 1rem;
+}
+.logoutDiv::before {
+  content: "";
+  position: absolute;
+  top: -0.6rem;
+  right: 1.8rem;
+  width: 16px;
+  height: 16px;
+  transform: rotate(45deg);
+  background-color: #fff;
+  border-left: 2.6px solid #000;
+  border-top: 2.6px solid #000;
+}
+/* ======================end of nav bar======================  */
