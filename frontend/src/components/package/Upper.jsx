@@ -42,7 +42,7 @@ const Upper = () => {
             </div>
             {
                 blur &&
-                <div className="absolute top-0 h-[calc(100vh-5rem)] w-full backdrop-blur-sm bg-white/80 flex justify-center items-center">
+                <div className="absolute top-0 h-[calc(100vh-5rem)] w-full backdrop-blur-[2px] bg-white/80 flex justify-center items-center">
                     <h1 className="text-6xl font-bold text-red-500">No Package Found</h1>
                 </div>
             }

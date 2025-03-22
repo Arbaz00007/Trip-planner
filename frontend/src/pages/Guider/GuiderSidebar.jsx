@@ -10,7 +10,7 @@ import { MdDashboard, MdPhoneIphone } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { FaBox, FaUser } from "react-icons/fa6";
 
-const AdminSidebar = () => {
+const GuidearSidebar = () => {
   const [activeSection, setActiveSection] = useState("");
   const [showCategories, setShowCategories] = useState(false); // To toggle categories
 
@@ -32,12 +32,12 @@ const AdminSidebar = () => {
         >
           TravelMate
         </h1>
-        <h1 className="text-2xl text-white">Admin</h1>
+        <h1 className="text-2xl text-white">Guider</h1>
       </div>
 
       {/* Sidebar Links */}
       <div className="mt-12">
-        <Link to="/admin/dashboard">
+        <Link to="/guider/dashboard">
           <div
             onClick={() => handleClick("dashboard")}
             className="flex gap-2 items-center p-4 text-white cursor-pointer"
@@ -48,7 +48,7 @@ const AdminSidebar = () => {
 
         <ul className="my-ul p-4 flex flex-col gap-2 border-t-2 border-b-2">
           {/* All Users Section */}
-          <Link to="/admin/dashboard/packages">
+          <Link to="/guider/dashboard/packages">
             <li
               onClick={() => handleClick("myProducts")}
               className={`${activeSection === "myProducts" ? "my-class" : ""}`}
@@ -57,17 +57,6 @@ const AdminSidebar = () => {
               <BiSolidPackage /> All Packages
             </li>
           </Link>
-          <Link to="/admin/dashboard/user">
-            <li
-              onClick={() => handleClick("myUser")}
-              className={`flex items-center gap-2 p-2 cursor-pointer ${
-                activeSection === "myUser" ? "my-class" : ""
-              }`}
-            >
-              <FaUser /> All Users
-            </li>
-          </Link>
-
           {/* All Products with Dropdown Categories */}
           {/* <li
             onClick={toggleCategories}
@@ -114,7 +103,7 @@ const AdminSidebar = () => {
           )} */}
 
           {/* My Purchase Section */}
-          <Link to="/admin/dashboard/transaction">
+          <Link to="/guider/dashboard/transaction">
             <li
               onClick={() => handleClick("myPurchase")}
               className={`flex items-center gap-2 p-2 cursor-pointer ${
@@ -131,4 +120,4 @@ const AdminSidebar = () => {
   );
 };
 
-export default AdminSidebar;
+export default GuidearSidebar;

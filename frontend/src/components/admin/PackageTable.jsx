@@ -1,38 +1,42 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { get, post } from "../../utils/api";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
-import { Link, useNavigate } from "react-router-dom";
-import { get } from "../../utils/api";
+import { toast } from "react-toastify";
 
-const UserTable = () => {
-  const navigate = useNavigate();
+const PackageTable = () => {
   const [data, setData] = useState([]);
-
   const fetchData = async () => {
-    const res = await get("/api/getAllUsers");
+    const res = await get("/api/getPosts");
     console.log(res, "Response");
     setData(res);
   };
   useEffect(() => {
     fetchData();
   }, []);
-  const handleUpdate = (uid) => {
-    console.log(uid);
-    // Navigate to the update page with user_id
-    navigate(`/admin/dashboard/update-user/${uid}`);
+  const navigate = useNavigate();
+  const handleUpdate = async (id) => {};
+
+  const handleDelete = async (id) => {
+    console.log(id, 22);
+
+    const res = await post(`/api/delete-post/${parseInt(id)}`);
+    console.log(res, " :Response", 23);
+    fetchData();
+    toast.success("Package deleted successfully");
   };
 
   return (
     <div>
       <div className="flex justify-end mr-10 my-9">
-        <Link to="/admin/dashboard/add-user">
+        <Link to="/admin/dashboard/add-package">
           <button className="bg-primary px-2 h-10 rounded-md hover:bg-green-600 my-transition font-bold shadow-md">
-            Add User
+            Add Package
           </button>
         </Link>
       </div>
-      <h2 className="text-primary ml-3 text-4xl font-bold">User's List</h2>
+      <h2 className="text-primary ml-3 text-4xl font-bold">Package's List</h2>
       <table className="min-w-full text-left text-sm font-light mt-6">
         <thead className="border-b font-medium dark:border-neutral-500">
           <tr>
@@ -40,16 +44,19 @@ const UserTable = () => {
               #
             </th>
             <th scope="col" className="px-6 py-4">
-              Name
+              Title
             </th>
             <th scope="col" className="px-6 py-4">
-              Email
+              Description
             </th>
             <th scope="col" className="px-6 py-4">
-              Address
+              Price
             </th>
             <th scope="col" className="px-6 py-4">
-              Phone
+              Location
+            </th>
+            <th scope="col" className="px-6 py-4">
+              Time
             </th>
             <th scope="col" className="px-6 py-4">
               Action
@@ -66,19 +73,27 @@ const UserTable = () => {
                 <td className="whitespace-nowrap px-6 py-4 font-medium">
                   {index + 1}
                 </td>
-                <td className="whitespace-nowrap px-6 py-4">{item.name}</td>
-                <td className="whitespace-nowrap px-6 py-4">{item.email}</td>
-                <td className="whitespace-nowrap px-6 py-4">{item.address}</td>
-                <td className="whitespace-nowrap px-6 py-4">{item.phone}</td>
+                <td className="whitespace-nowrap px-6 py-4">{item.pname}</td>
+                <td className="whitespace-nowrap px-6 py-4">
+                  {item.description.slice(0, 32) + "..."}
+                </td>
+                <td className="whitespace-nowrap px-6 py-4">{item.price}</td>
+                <td className="whitespace-nowrap px-6 py-4">{item.location}</td>
+                <td className="whitespace-nowrap px-6 py-4">{item.time}</td>
                 <td className="whitespace-nowrap px-6 py-4 flex gap-2">
                   <button
                     className="flex items-center gap-1  text-blue-500 font-md border border-blue-500 px-4 py-1 rounded-sm"
-                    onClick={() => handleUpdate(item.uid)}
+                    onClick={() =>
+                      navigate(`/admin/dashboard/update-package/${item.pid}`)
+                    }
                   >
                     <FaEdit />
                     <span>Edit</span>
                   </button>
-                  <button className="flex items-center gap-1   text-red-600 font-md border border-red-600 px-4 py-1 rounded-sm">
+                  <button
+                    className="flex items-center gap-1   text-red-600 font-md border border-red-600 px-4 py-1 rounded-sm"
+                    onClick={() => handleDelete(item.pid)}
+                  >
                     <MdDelete />
                     <span>Delete</span>
                   </button>
@@ -92,4 +107,4 @@ const UserTable = () => {
   );
 };
 
-export default UserTable;
+export default PackageTable;
