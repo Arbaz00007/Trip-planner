@@ -26,7 +26,7 @@ export const register = (req, res) => {
 
 export const login = (req, res) => {
   const q = "SELECT * FROM `users` WHERE `email` = ?";
-  
+
   db.query(q, [req.body.email], (err, data) => {
     if (err) return res.status(500).json(err);
     if (data.length === 0)
@@ -51,7 +51,7 @@ export const login = (req, res) => {
     // Set cookie with 1-month expiry
     res
       .cookie("accessToken", token, {
-        httpOnly: false,  
+        httpOnly: false,
         maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days in milliseconds
         secure: process.env.NODE_ENV === "production", // Use secure cookies in production
         sameSite: "strict",
@@ -60,7 +60,6 @@ export const login = (req, res) => {
       .json({ others, token });
   });
 };
-
 
 export const logout = (req, res) => {
   res.clearCookie("accessToken").json({ message: "Logout successfully." });

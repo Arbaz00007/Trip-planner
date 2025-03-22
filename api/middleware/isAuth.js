@@ -49,3 +49,10 @@ export const checkUser = (req, res, next) => {
     res.status(403).send({ message: "Forbidden: Insufficient permissions" });
   }
 };
+
+export const checkAdminOrGuider = (req, res, next) => {
+  if (req.userRole && (req.userRole === "admin" || req.userRole === "guider")) {
+    return next(); // User is either an admin or a guider → Proceed
+  }
+  return res.status(403).json({ message: "Access denied" }); // Unauthorized
+};
