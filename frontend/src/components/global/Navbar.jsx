@@ -12,6 +12,7 @@ import { AiOutlineLogout } from "react-icons/ai";
 import { AuthContext } from "../../context/authContext";
 import { FaBookmark } from "react-icons/fa";
 import { post } from "../../utils/api";
+import { IoChatboxEllipses } from "react-icons/io5";
 
 export default function Navbar() {
   const { currentUser, logout, fetchMessage } = useContext(AuthContext);
@@ -72,11 +73,18 @@ export default function Navbar() {
               </li>
             )}
             {currentUser?.role_id === 3 && (
-              <li>
-                <NavLink to="/booking" className="nav_links">
-                  <FaBookmark className="dash" /> Booking
-                </NavLink>
-              </li>
+              <>
+                <li>
+                  <NavLink to="/booking" className="nav_links">
+                    <FaBookmark className="dash" /> Booking
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/chat" className="nav_links">
+                    <IoChatboxEllipses className="dash" /> Chat
+                  </NavLink>
+                </li>
+              </>
             )}
             {currentUser ? (
               currentUser.role_id === 1 ? (

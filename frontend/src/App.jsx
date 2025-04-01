@@ -27,6 +27,7 @@ import Packageform from "./components/admin/addPackage/PackageForm";
 import UpdatePackageForm from "./components/admin/UpdatePackageForm";
 import IsGuider from "./utils/IsGuider";
 import GuiderMain from "./pages/Guider/GuiderMain";
+import ChatUI from "./pages/ChatUI";
 
 const App = () => {
   const Layout = () => {
@@ -65,6 +66,10 @@ const App = () => {
         {
           path: "/contact",
           element: <ContactPage />,
+        },
+        {
+          path: "/chat",
+          element: <ChatUI />,
         },
         {
           path: "/",
