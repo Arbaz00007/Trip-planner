@@ -7,7 +7,10 @@ export const isAuth = (req, res, next) => {
 
     const verify = jwt.verify(token, "secretkey");
     // console.log(verify, ":verify");
-
+    req.user = {
+      user_id: verify.id, // Make sure your JWT includes this when created
+      role_id: verify.role_id,
+    };
     // Attach user role to the request object
     req.userRole =
       verify.role_id === 1

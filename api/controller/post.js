@@ -1,7 +1,17 @@
 import { db } from "../db/db.js";
 
 export const createPost = (req, res) => {
-  const { pname, price, description, userId, location, time } = req.body;
+  const {
+    pname,
+    price,
+    description,
+    userId,
+    location,
+    time,
+    included,
+    returned,
+    expect,
+  } = req.body;
   const images = req.files; // Array of images
 
   console.log(images, "Image Path");
@@ -14,8 +24,18 @@ export const createPost = (req, res) => {
   }
 
   // Values for package table insertion
-  const values = [pname, price, description, userId, location, time];
-  const sql = `INSERT INTO package(pname, price, description, uid, location, time) VALUES(?,?,?,?,?,?)`;
+  const values = [
+    pname,
+    price,
+    description,
+    parseInt(userId),
+    location,
+    time,
+    included,
+    expect,
+    returned,
+  ];
+  const sql = `INSERT INTO package(pname, price, description, uid, location, time, included, expect, returned) VALUES(?,?,?,?,?,?,?,?,?)`;
 
   // Insert package into the package table
   db.query(sql, values, (err, results) => {
@@ -47,10 +67,52 @@ export const createPost = (req, res) => {
       }
 
       console.log("Images have been added");
-      res.status(200).json({
-        message: "package and images have been added successfully",
-        imageResults,
-      });
+      // res.status(200).json({
+      //   message: "package and images have been added successfully",
+      //   imageResults,
+      // });
+      const itinerary = req.body.itinerary;
+
+      // Parse if sent as JSON string
+      const itineraryData =
+        typeof itinerary === "string" ? JSON.parse(itinerary) : itinerary;
+
+      if (Array.isArray(itineraryData) && itineraryData.length > 0) {
+        const itineraryValues = itineraryData.map((item, index) => [
+          pid,
+          index + 1, // step_order
+          item.place,
+          item.duration,
+          item.admission ? "Included" : "Not Included",
+        ]);
+
+        const itinerarySql = `INSERT INTO itinerary(pid, step_order, place_name, duration, admission) VALUES ?`;
+
+        db.query(
+          itinerarySql,
+          [itineraryValues],
+          (itineraryErr, itineraryResult) => {
+            if (itineraryErr) {
+              console.error("Error inserting itinerary:", itineraryErr);
+              return res.status(500).json({
+                error: "An error occurred while inserting itinerary",
+                details: itineraryErr.message,
+              });
+            }
+
+            console.log("Itinerary has been added");
+            res.status(200).json({
+              message: "Package, images, and itinerary added successfully",
+              itineraryResult,
+            });
+          }
+        );
+      } else {
+        res.status(200).json({
+          message:
+            "Package and images added successfully (no itinerary provided)",
+        });
+      }
     });
   });
 };
@@ -80,31 +142,57 @@ GROUP BY
 
 export const getSinglePost = (req, res) => {
   const pid = req.params.id;
-  // console.log(pid);
-  const sql = `SELECT 
-    p.*, 
-    u.*,  
-    COALESCE(GROUP_CONCAT(i.image), '') AS images,
-    b.* 
-FROM package p
-LEFT JOIN image i ON p.pid = i.pid
-LEFT JOIN users u ON p.uid = u.id 
-LEFT JOIN bookings b ON p.pid = b.package_id  
-WHERE p.pid = ?
-GROUP BY p.pid, u.id, b.id; `;
-  db.query(sql, [pid], (err, results) => {
+
+  const packageSql = `
+    SELECT 
+      p.*, 
+      u.*,  
+      COALESCE(GROUP_CONCAT(i.image), '') AS images,
+      b.* 
+    FROM package p
+    LEFT JOIN image i ON p.pid = i.pid
+    LEFT JOIN users u ON p.uid = u.id 
+    LEFT JOIN bookings b ON p.pid = b.package_id  
+    WHERE p.pid = ?
+    GROUP BY p.pid, u.id, b.id
+  `;
+
+  const itinerarySql = `
+    SELECT * 
+    FROM itinerary 
+    WHERE pid = ?
+  `;
+
+  db.query(packageSql, [pid], (err, packageResults) => {
     if (err) {
-      console.error("Error aayo:", err);
+      console.error("Package query error:", err);
       return res
         .status(500)
-        .json({ error: "An error occurred", details: err.message });
+        .json({ error: "Error retrieving package", details: err.message });
     }
 
-    if (results.length === 0) {
+    if (packageResults.length === 0) {
       return res.status(404).json({ error: "Post not found" });
     }
 
-    res.status(200).json(results[0]);
+    // Now fetch itinerary
+    db.query(itinerarySql, [pid], (err, itineraryResults) => {
+      if (err) {
+        console.error("Itinerary query error:", err);
+        return res
+          .status(500)
+          .json({ error: "Error retrieving itinerary", details: err.message });
+      }
+      console.log(itineraryResults, "Itinerary Results");
+
+      // Append itinerary to result
+      const postWithItinerary = {
+        ...packageResults[0],
+        itinerary: itineraryResults,
+      };
+
+      res.status(200).json(postWithItinerary);
+    });
   });
 };
 
@@ -112,7 +200,9 @@ export const deletePost = (req, res) => {
   const { pid } = req.params;
 
   if (!pid) {
-    return res.status(400).json({ error: "Package ID is required for deletion." });
+    return res
+      .status(400)
+      .json({ error: "Package ID is required for deletion." });
   }
 
   // Delete images first to maintain foreign key constraints
@@ -142,11 +232,12 @@ export const deletePost = (req, res) => {
       }
 
       console.log("Package deleted successfully");
-      res.status(200).json({ message: "Package and associated images deleted successfully" });
+      res.status(200).json({
+        message: "Package and associated images deleted successfully",
+      });
     });
   });
 };
-
 
 export const updatePost = (req, res) => {
   const { pid } = req.params;

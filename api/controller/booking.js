@@ -1,7 +1,7 @@
 import { db } from "../db/db.js";
 export const getAllBookingDetails = (req, res) => {
   const sql = `SELECT 
-    b.*,      
+    b.*,b.id as booking_id,      
     u.*,       
     p.*,        
     COALESCE(GROUP_CONCAT(i.image), '') AS images 
@@ -101,4 +101,20 @@ export const getAllBookingByUser = (req, res) => {
       res.status(200).json(results);
     });
   }
+};
+
+export const compeleteBooking = (req, res) => {
+  const { bid, pid } = req.params;
+
+  const sql = `UPDATE bookings SET status = "Completed" WHERE id = ?; 
+  Update package SET isBooked = "Not-booked" WHERE pid = ?;`;
+  db.query(sql, [parseInt(bid), parseInt(pid)], (err, results) => {
+    if (err) {
+      console.error("Error aayo:", err);
+      return res
+        .status(500)
+        .json({ error: "An error occurred", details: err.message });
+    }
+    res.status(200).json({ message: "Booking Completed.." });
+  });
 };

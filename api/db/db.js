@@ -5,6 +5,7 @@ export const db = mysql.createConnection({
   user: "root",
   password: "12345",
   database: "toursystem",
+  multipleStatements: true,
 });
 
 if (!db.connect) {
