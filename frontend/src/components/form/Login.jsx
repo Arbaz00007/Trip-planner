@@ -4,7 +4,7 @@ import { IoLogoGoogle } from "react-icons/io5";
 import { FaUserAlt } from "react-icons/fa";
 import { RiLockPasswordFill } from "react-icons/ri";
 import MySvg from "../../image/svg/login.svg";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import Validation from "./SigninValidation";
 import { AuthContext } from "../../context/authContext";
@@ -120,6 +120,9 @@ const Login = () => {
                 />{" "}
                 <span className="pl-2 font-semibold"> Remember me</span>
               </div>
+              <Link to={"/forget-password"}>
+                <span>Forget password?</span>
+              </Link>
               <span className="text-red-700">{err}</span>
               <button
                 type="submit"

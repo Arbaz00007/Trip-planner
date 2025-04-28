@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./style.css";
 import { BiSolidPackage } from "react-icons/bi";
-import { FaTag, FaShoppingCart, FaLaptop } from "react-icons/fa";
+import { FaTag, FaShoppingCart, FaLaptop, FaBookMedical } from "react-icons/fa";
 import { TbDeviceAirpodsCase, TbDeviceIpad } from "react-icons/tb";
 import { CgAppleWatch } from "react-icons/cg";
 import { GrTransaction } from "react-icons/gr";
@@ -65,6 +65,16 @@ const AdminSidebar = () => {
               }`}
             >
               <FaUser /> All Users
+            </li>
+          </Link>
+          <Link to="/admin/dashboard/booking">
+            <li
+              onClick={() => handleClick("myBooking")}
+              className={`flex items-center gap-2 p-2 cursor-pointer ${
+                activeSection === "myBooking" ? "my-class" : ""
+              }`}
+            >
+              <FaBookMedical /> Booking
             </li>
           </Link>
 

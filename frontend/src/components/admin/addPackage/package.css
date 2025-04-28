@@ -1,6 +1,7 @@
 .packageFormDiv {
   /* margin-top: -1rem; */
-  height: calc(100vh - 5rem);
+  /* height: calc(100vh - 5rem); */
+  margin: 2rem;
   align-items: center;
   display: flex;
   justify-content: center;
@@ -14,7 +15,7 @@
   justify-content: center;
   width: 60%;
   gap: 1rem;
-  height: 34rem;
+  /* height: 34rem; */
   border-radius: 0.6rem;
   box-shadow: 1px 1px 20px -2px #000;
 }
@@ -24,8 +25,8 @@
   gap: 1.6rem;
 }
 .packageFormDiv form textarea {
-  width: 90%;
-  height: 14rem;
+  /* width: 90%;
+  height: 14rem; */
   background-color: #1f2a40;
   border: none;
   border-radius: 0.6rem;

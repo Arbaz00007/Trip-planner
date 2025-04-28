@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./style.css";
 import { BiSolidPackage } from "react-icons/bi";
-import { FaTag, FaShoppingCart, FaLaptop } from "react-icons/fa";
+import { FaTag, FaShoppingCart, FaLaptop, FaBookMedical } from "react-icons/fa";
 import { TbDeviceAirpodsCase, TbDeviceIpad } from "react-icons/tb";
 import { CgAppleWatch } from "react-icons/cg";
 import { GrTransaction } from "react-icons/gr";
@@ -57,61 +57,17 @@ const GuidearSidebar = () => {
               <BiSolidPackage /> All Packages
             </li>
           </Link>
-          {/* All Products with Dropdown Categories */}
-          {/* <li
-            onClick={toggleCategories}
-            className={`flex items-center gap-2 p-2 cursor-pointer ${activeSection === "mySale" ? "my-class" : ""
-              }`}
-          >
-            <FaBox /> All Products
-          </li> */}
-
-          {/* Dropdown Categories - Slide Down */}
-          {/* {showCategories && (
-            <ul className="ml-6 mt-2">
-              <Link to={"/admin/dashboard/iphone"}>
-                <li className="text-white p-2 cursor-pointer">
-                  <MdPhoneIphone />
-                  iPhone
-                </li>
-              </Link>
-              <Link to={"/admin/dashboard/ipad"}>
-                <li className="text-white p-2 cursor-pointer">
-                  <TbDeviceIpad />
-                  iPad
-                </li>
-              </Link>
-              <Link to={"/admin/dashboard/airpod"}>
-                <li className="text-white p-2 cursor-pointer">
-                  <TbDeviceAirpodsCase />
-                  AirPods
-                </li>
-              </Link>
-              <Link to={"/admin/dashboard/watch"}>
-                <li className="text-white p-2 cursor-pointer">
-                  <CgAppleWatch />
-                  Watch
-                </li>
-              </Link>
-              <Link to={"/admin/dashboard/mackbook"}>
-                <li className="text-white p-2 cursor-pointer">
-                  <FaLaptop />
-                  Mackbook
-                </li>
-              </Link>
-            </ul>
-          )} */}
-
+        
           {/* My Purchase Section */}
-          <Link to="/guider/dashboard/transaction">
+          <Link to="/guider/dashboard/booking">
             <li
               onClick={() => handleClick("myPurchase")}
               className={`flex items-center gap-2 p-2 cursor-pointer ${
                 activeSection === "myPurchase" ? "my-class" : ""
               }`}
             >
-              <GrTransaction />
-              Transaction
+              <FaBookMedical />
+              Booking
             </li>
           </Link>
         </ul>

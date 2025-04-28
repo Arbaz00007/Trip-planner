@@ -18,6 +18,7 @@ import AdminMain from "./pages/Admin/AdminMain";
 import Dashboard from "./components/admin/Dashboard";
 import UserTable from "./components/admin/UserTable";
 import Booking from "./components/booking/Booking";
+import GuiderBooking from "./components/guider/GuiderBooking";
 import Main from "./components/booking/Main";
 import Booked from "./components/booking/Booked";
 import Canceled from "./components/booking/Canceled";
@@ -28,6 +29,11 @@ import UpdatePackageForm from "./components/admin/UpdatePackageForm";
 import IsGuider from "./utils/IsGuider";
 import GuiderMain from "./pages/Guider/GuiderMain";
 import ChatUI from "./pages/ChatUI";
+import AdminBooking from "./components/admin/AdminBooking";
+import TransactionDashboard from "./components/admin/TransactionDashboard";
+import VerifyOtp from "./pages/Verifyotp";
+import VerifyOtpAndReset from "./components/VerifyOtpAndReset";
+import ForgetPassword from "./components/ForgetPassword";
 
 const App = () => {
   const Layout = () => {
@@ -95,6 +101,18 @@ const App = () => {
       element: <SignupPage />,
     },
     {
+      path: "/verify-otp",
+      element: <VerifyOtp />,
+    },
+    {
+      path: "/forget-password",
+      element: <ForgetPassword />,
+    },
+    {
+      path: "/verify-otp-reset",
+      element: <VerifyOtpAndReset />,
+    },
+    {
       path: "packages/our-package/:pid",
       element: <SinglePackage />,
     },
@@ -133,12 +151,20 @@ const App = () => {
               element: <PackageTable />,
             },
             {
+              path: "/admin/dashboard/booking",
+              element: <AdminBooking />,
+            },
+            {
               path: "/admin/dashboard/add-package",
               element: <Packageform />,
             },
             {
               path: "/admin/dashboard/update-package/:pid",
               element: <UpdatePackageForm />,
+            },
+            {
+              path: "/admin/dashboard/transaction",
+              element: <TransactionDashboard />,
             },
           ],
         },
@@ -162,6 +188,10 @@ const App = () => {
             {
               path: "/guider/dashboard/packages",
               element: <PackageTable />,
+            },
+            {
+              path: "/guider/dashboard/booking",
+              element: <GuiderBooking />,
             },
             {
               path: "/guider/dashboard/add-package",

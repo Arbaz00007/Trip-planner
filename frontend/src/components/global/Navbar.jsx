@@ -79,11 +79,6 @@ export default function Navbar() {
                     <FaBookmark className="dash" /> Booking
                   </NavLink>
                 </li>
-                <li>
-                  <NavLink to="/chat" className="nav_links">
-                    <IoChatboxEllipses className="dash" /> Chat
-                  </NavLink>
-                </li>
               </>
             )}
             {currentUser ? (
