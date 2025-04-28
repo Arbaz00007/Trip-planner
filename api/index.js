@@ -2,6 +2,8 @@ import express from "express";
 import { createServer } from "http"; // Add this
 import { Server } from "socket.io"; // Add this
 import cors from "cors";
+import { configDotenv } from "dotenv";
+configDotenv(); // Load environment variables from .env file
 import authRoute from "./routes/authRoute.js";
 import postRoute from "./routes/postRoute.js";
 import esewaRoute from "./routes/esewaRoute.js";
@@ -9,6 +11,8 @@ import userRoute from "./routes/userRoute.js";
 import guiderRoute from "./routes/guiderRoute.js";
 import bookingRoute from "./routes/bookingRoute.js";
 import chatRoute from "./routes/chatRoute.js"; // Add this
+import reviewRoute from "./routes/reviewRoute.js"; // Add this
+import transactionRoute from "./routes/transactionRoute.js"; // Add this
 
 const app = express();
 const server = createServer(app); // Replace app.listen with this
@@ -39,8 +43,10 @@ app.use("/api", authRoute);
 app.use("/api", postRoute);
 app.use("/api", esewaRoute);
 app.use("/api", userRoute);
+app.use("/api", reviewRoute);
 app.use("/api", guiderRoute);
 app.use("/api", bookingRoute);
+app.use("/api", transactionRoute);
 app.use("/api/chat", chatRoute); // Add this line
 app.use(express.static("public"));
 

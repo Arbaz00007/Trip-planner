@@ -72,7 +72,10 @@ export const handleEsewaSuccess = async (req, res) => {
           console.log(data.insertId, ":Result");
           db.query(
             "insert into transactions(`booking_id`, `amount`) values(?,?)",
-            [data.insertId, decodedString.total_amount],
+            [
+              data.insertId,
+              parseInt(decodedString.total_amount.replace(/,/g, ""), 10),
+            ],
             (err, data) => {
               if (err) {
                 console.error("Error inserting order:", err);
