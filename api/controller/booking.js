@@ -24,6 +24,7 @@ GROUP BY b.id, u.id, p.pid;`;
 export const getAllBookingByUser = (req, res) => {
   const uid = req.params.id;
   const query = req.query;
+  console.log(query, ":Query");
 
   console.log(uid, ":UID");
   // console.log(query.status === "Pending");

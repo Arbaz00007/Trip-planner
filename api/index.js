@@ -13,6 +13,10 @@ import bookingRoute from "./routes/bookingRoute.js";
 import chatRoute from "./routes/chatRoute.js"; // Add this
 import reviewRoute from "./routes/reviewRoute.js"; // Add this
 import transactionRoute from "./routes/transactionRoute.js"; // Add this
+import {
+  getAllNotifications,
+  sendNotification,
+} from "./controller/notification.js";
 
 const app = express();
 const server = createServer(app); // Replace app.listen with this
@@ -38,6 +42,30 @@ app.use(
   })
 );
 
+io.on("connection", (socket) => {
+  console.log("A user connected");
+
+  // Send previous notifications when a user connects
+  db.query(
+    "SELECT * FROM notification ORDER BY created_at DESC",
+    (err, rows) => {
+      if (err) {
+        return console.log(err);
+      }
+
+      socket.emit("previous-notifications", rows);
+      // console.log(rows, ":Main file log");
+    }
+  );
+
+  socket.on("disconnect", () => {
+    console.log("User disconnected");
+  });
+});
+
+app.get("/notifications", getAllNotifications);
+app.post("/send-notification", (req, res) => sendNotification(req, res, io));
+
 // Routes
 app.use("/api", authRoute);
 app.use("/api", postRoute);
@@ -49,22 +77,6 @@ app.use("/api", bookingRoute);
 app.use("/api", transactionRoute);
 app.use("/api/chat", chatRoute); // Add this line
 app.use(express.static("public"));
-
-// Socket.io connection handler
-io.on("connection", (socket) => {
-  console.log(`User connected: ${socket.id}`);
-
-  // Join user to their room (user ID)
-  socket.on("join", (userId) => {
-    socket.join(userId);
-    console.log(`User ${userId} joined their room`);
-  });
-
-  // Handle disconnection
-  socket.on("disconnect", () => {
-    console.log(`User disconnected: ${socket.id}`);
-  });
-});
 
 // Start server (use server.listen instead of app.listen)
 const port = 5050;
