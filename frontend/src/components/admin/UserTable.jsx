@@ -2,7 +2,18 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { get, post } from "../../utils/api";
 import { toast } from "react-toastify";
-import { Pencil, Trash2, Users, Plus, Loader2, RefreshCw, Search, Mail, MapPin, Phone } from "lucide-react";
+import {
+  Pencil,
+  Trash2,
+  Users,
+  Plus,
+  Loader2,
+  RefreshCw,
+  Search,
+  Mail,
+  MapPin,
+  Phone,
+} from "lucide-react";
 
 const UserTable = () => {
   const [data, setData] = useState([]);
@@ -36,21 +47,24 @@ const UserTable = () => {
         setFilteredData(data);
         return;
       }
-      
+
       const lowercaseQuery = searchQuery.toLowerCase();
-      const filtered = data.filter(item => 
-        item.name?.toLowerCase().includes(lowercaseQuery) || 
-        item.email?.toLowerCase().includes(lowercaseQuery) || 
-        item.address?.toLowerCase().includes(lowercaseQuery) || 
-        item.phone?.includes(lowercaseQuery)
+      const filtered = data.filter(
+        (item) =>
+          item.name?.toLowerCase().includes(lowercaseQuery) ||
+          item.email?.toLowerCase().includes(lowercaseQuery) ||
+          item.address?.toLowerCase().includes(lowercaseQuery) ||
+          item.phone?.includes(lowercaseQuery)
       );
       setFilteredData(filtered);
     };
-    
+
     filterData();
   }, [searchQuery, data]);
 
   const handleUpdate = (uid) => {
+    console.log(uid, "UID from handleUpdate");
+
     navigate(`/admin/dashboard/update-user/${uid}`);
   };
 
@@ -73,7 +87,9 @@ const UserTable = () => {
     if (!name) return "U";
     const names = name.split(" ");
     if (names.length === 1) return names[0].charAt(0).toUpperCase();
-    return (names[0].charAt(0) + names[names.length - 1].charAt(0)).toUpperCase();
+    return (
+      names[0].charAt(0) + names[names.length - 1].charAt(0)
+    ).toUpperCase();
   };
 
   // Get background color based on initials
@@ -86,7 +102,7 @@ const UserTable = () => {
       "bg-pink-100 text-pink-600",
       "bg-indigo-100 text-indigo-600",
     ];
-    
+
     const charCode = initials.charCodeAt(0);
     return colors[charCode % colors.length];
   };
@@ -97,7 +113,9 @@ const UserTable = () => {
         <div className="flex justify-between items-center mb-6">
           <div className="flex items-center">
             <Users className="text-blue-600 mr-3 h-6 w-6" />
-            <h2 className="text-2xl font-bold text-gray-800">User Management</h2>
+            <h2 className="text-2xl font-bold text-gray-800">
+              User Management
+            </h2>
           </div>
           <div className="flex items-center gap-3">
             <button
@@ -107,15 +125,10 @@ const UserTable = () => {
             >
               <RefreshCw className="h-5 w-5" />
             </button>
-            <Link to="/admin/dashboard/add-user">
-              <button className="flex items-center bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md transition-colors">
-                <Plus className="mr-1 h-5 w-5" />
-                Add User
-              </button>
-            </Link>
+            
           </div>
         </div>
-        
+
         <div className="flex justify-between items-center">
           <div className="relative flex-grow max-w-2xl">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -143,9 +156,13 @@ const UserTable = () => {
       ) : filteredData.length === 0 ? (
         <div className="text-center py-16">
           <Users className="mx-auto h-12 w-12 text-gray-300" />
-          <h3 className="mt-2 text-lg font-medium text-gray-900">No users found</h3>
+          <h3 className="mt-2 text-lg font-medium text-gray-900">
+            No users found
+          </h3>
           <p className="mt-1 text-sm text-gray-500">
-            {searchQuery ? "Try adjusting your search terms" : "Add a new user to get started"}
+            {searchQuery
+              ? "Try adjusting your search terms"
+              : "Add a new user to get started"}
           </p>
         </div>
       ) : (
@@ -153,27 +170,46 @@ const UserTable = () => {
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact Information</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Address</th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  ID
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Name
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Contact Information
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Address
+                </th>
+                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {filteredData.map((item, index) => {
                 const initials = getInitials(item.name);
                 const initialsColor = getInitialsColor(initials);
-                
+
                 return (
-                  <tr key={item.uid || index} className="hover:bg-gray-50 transition-colors">
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">#{item.uid || index + 1}</td>
+                  <tr
+                    key={item.uid || index}
+                    className="hover:bg-gray-50 transition-colors"
+                  >
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                      #{item.uid || index + 1}
+                    </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
-                        <div className={`flex-shrink-0 h-10 w-10 rounded-full ${initialsColor} flex items-center justify-center font-medium`}>
+                        <div
+                          className={`flex-shrink-0 h-10 w-10 rounded-full ${initialsColor} flex items-center justify-center font-medium`}
+                        >
                           {initials}
                         </div>
-                        <div className="ml-4 text-sm font-medium text-gray-900">{item.name}</div>
+                        <div className="ml-4 text-sm font-medium text-gray-900">
+                          {item.name}
+                        </div>
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -197,14 +233,14 @@ const UserTable = () => {
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <div className="flex gap-2 justify-end">
                         <button
-                          onClick={() => handleUpdate(item.uid)}
+                          onClick={() => handleUpdate(item.id)}
                           className="inline-flex items-center px-3 py-1 border border-blue-200 text-blue-600 rounded-md hover:bg-blue-50 transition-colors"
                         >
                           <Pencil className="h-4 w-4 mr-1" />
                           Edit
                         </button>
                         <button
-                          onClick={() => handleDelete(item.uid)}
+                          onClick={() => handleDelete(item.id)}
                           className="inline-flex items-center px-3 py-1 border border-red-200 text-red-600 rounded-md hover:bg-red-50 transition-colors"
                           disabled={isDeleting === item.uid}
                         >

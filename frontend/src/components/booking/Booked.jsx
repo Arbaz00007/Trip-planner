@@ -1,35 +1,98 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { get } from '../../utils/api'
-import BookCard from './BookCard'
-import { AuthContext } from '../../context/authContext'
+// Booked Component
+import React, { useContext, useEffect, useState } from "react";
+import { get } from "../../utils/api";
+import BookCard from "./BookCard";
+import { AuthContext } from "../../context/authContext";
+import { FiPackage, FiCalendar, FiClock } from "react-icons/fi";
+import { motion } from "framer-motion";
+
 const Booked = () => {
-    const { currentUser } = useContext(AuthContext)
-    // console.log(currentUser.id);
+  const { currentUser } = useContext(AuthContext);
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-    const [data, setData] = useState([])
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await get(
+          `/api/getBookingByUser/${parseInt(currentUser?.id)}?status=Completed`
+        );
+        setData(res);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setLoading(false);
+      }
+    };
 
-    useEffect(() => {
-        const res = get(`/api/getBookingByUser/${parseInt(currentUser?.id)}?status=Completed`)
-        res.then(data => {
-            console.log(data);
+    fetchData();
+  }, [currentUser?.id]);
 
-            setData(data)
-        })
-    }, [])
-    return (
-        <div>
-            <h1 className='text-5xl font-bold'>Previously Booked Package</h1>
-            <div className="grid grid-cols-2 gap-x-4 mt-4">
-                {
-                    data.length > 0 ?
-                        data.map((item, index) => (
-                            <BookCard key={index} data={item} type='booked' />
-                        )) :
-                        <h1 className='text-6xl text-red-500 font-bold col-span-2 text-center'>No Booked Package Found</h1>
-                }
-            </div>
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0 },
+  };
+
+  return (
+    <div className="h-full">
+      <div className="flex items-center gap-3 mb-6">
+        <div className="bg-green-100 p-2 rounded-lg">
+          <FiPackage className="text-green-600 text-xl" />
         </div>
-    )
-}
+        <h1 className="text-3xl font-bold">Previously Booked Packages</h1>
+      </div>
 
-export default Booked
+      {loading ? (
+        <div className="flex justify-center items-center h-64">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+        </div>
+      ) : (
+        <>
+          {data.length > 0 ? (
+            <motion.div
+              className="grid grid-cols-1 lg:grid-cols-2 gap-6"
+              variants={containerVariants}
+              initial="hidden"
+              animate="show"
+            >
+              {data.map((item, index) => (
+                <motion.div key={index} variants={itemVariants}>
+                  <BookCard data={item} type="booked" />
+                </motion.div>
+              ))}
+            </motion.div>
+          ) : (
+            <div className="bg-gray-50 rounded-xl p-8 text-center">
+              <div className="bg-gray-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <FiCalendar className="text-gray-500 text-2xl" />
+              </div>
+              <h2 className="text-2xl font-bold text-gray-700 mb-2">
+                No Booked Packages
+              </h2>
+              <p className="text-gray-500 max-w-md mx-auto">
+                You don't have any previously booked packages. Start exploring
+                our exciting offers!
+              </p>
+              <button className="mt-4 bg-primary text-white px-6 py-2 rounded-lg font-medium hover:bg-primary/90 transition-colors">
+                Explore Packages
+              </button>
+            </div>
+          )}
+        </>
+      )}
+    </div>
+  );
+};
+
+export default Booked;

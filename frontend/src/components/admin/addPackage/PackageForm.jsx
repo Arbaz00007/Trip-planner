@@ -112,6 +112,15 @@ export default function PackageForm() {
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
+      const notification = {
+        title: `New Exciting Package Created!`,
+        message: `A new package titled "${inputs.pac_title}" has been created by ${currentUser.name}. Just Rs.${inputs.pac_cost} for an unforgettable experience!`,
+      };
+      await axios
+        .post("http://localhost:5050/send-notification", notification)
+        .then((res) => {
+          console.log(res.data, 110);
+        });
 
       toast.success(response.data.message);
 

@@ -34,6 +34,7 @@ import TransactionDashboard from "./components/admin/TransactionDashboard";
 import VerifyOtp from "./pages/Verifyotp";
 import VerifyOtpAndReset from "./components/VerifyOtpAndReset";
 import ForgetPassword from "./components/ForgetPassword";
+import EditUser from "./components/admin/EditUser";
 
 const App = () => {
   const Layout = () => {
@@ -145,6 +146,10 @@ const App = () => {
             {
               path: "/admin/dashboard/user",
               element: <UserTable />,
+            },
+            {
+              path: "/admin/dashboard/update-user/:uid",
+              element: <EditUser />,
             },
             {
               path: "/admin/dashboard/packages",
